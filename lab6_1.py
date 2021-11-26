@@ -57,8 +57,39 @@ class Commis_member(Human):
 
 
 class Commis_and_lecturer(Univer_lecturer, Commis_member):
-    pass
+    def __init__(self, name, surname, patronymic, year_born, position, academ_degree, speciality, work_list, commis_name, commis_appoint_year, certificate_number,
+                 autobiogr, works_in_comis):
+        super().__init__(name, surname, patronymic, year_born, position, academ_degree, speciality, work_list, commis_name, commis_appoint_year, certificate_number,
+                 autobiogr)
+        self.works_in_comis = works_in_comis
 
 a = Univer_lecturer('Васильев', 'Василий', 'Васильевич', '1970', 'Лектор', 'Доцент', 'Математиеское моделирование', '1,2,3')
 #print(a.print_info())
 a.print_info()
+
+
+#########################
+class Fakultet:
+
+    def init(self, univer=None, fac=None):
+        self.univer = univer
+        self.fac = fac
+
+class Student(Fakultet):
+
+    def init(self, name=None, univer=None, fac=None, bday=None, results=None):
+        super().init(univer, fac)
+        self.name = name
+        self.bday = bday
+        self.results = results
+
+    def input_1(self):
+        name = input("Введите ФИО студента: ")
+        univer = input("Введите университет: ")
+        fac = input("Введите факультет: ")
+        bday = input("Введите дату рождния: ")
+        results = input("Введите результаты сессии: ")
+        print(name + ' '+ univer + ' '+fac + ' '+bday+ ' '+results+ ' ')
+
+stud=Student()
+stud.input_1()
