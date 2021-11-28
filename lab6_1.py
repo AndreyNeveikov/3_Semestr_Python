@@ -12,9 +12,16 @@
 
 from abc import ABC, abstractmethod
 
-class Human(ABC):
 
+class Human(ABC):
+    """
+    Kласс «Человек», включающий в себя имя, фамилию, отчество, год рождения
+    и методы, позволяющие изменять/получать значения этих полей
+    """
     def __init__(self, name, surname, patronymic, year_born):
+        """
+        Инициализация класса «Человек»
+        """
         self.name = name
         self.surname = surname
         self.patronymic = patronymic
@@ -22,26 +29,41 @@ class Human(ABC):
 
     @abstractmethod
     def print_info(self):
-        pass
+        """
+        Вывод информации об экземпляре класса
+        """
 
     @abstractmethod
     def change_info(self):
-        pass
+        """
+        Изменение информации об экземпляре класса
+        """
 
-class Univer_lecturer(Human):
 
-    def __init__(self, name = None, surname = None, patronymic = None, year_born = None, position = None, academ_degree = None, speciality = None, work_list = None):
+class UniverLecturer(Human):
+    """
+    Kласс «Преподаватель университета» с полями:
+    должность, ученая степень, специальность,
+    список научных трудов (массив строк);
+    """
+    def __init__(
+            self, name=None, surname=None, patronymic=None, year_born=None,
+            position=None, academ_degree=None, speciality=None, work_list=None
+    ):
         super().__init__(name, surname, patronymic, year_born)
         self.position = position
         self.academ_degree = academ_degree
         self.speciality = speciality
         self.work_list = work_list
 
-
     def print_info(self):
-        print('\n' + self.name + ' ' + self.surname + ' ' + self.patronymic + ' ' + self.year_born + ' года рождения ' + \
-              ' \nДолжность: ' + self.position + ' \nУченая степень: ' + self.academ_degree + \
-              ' \nСпециальность: ' + self.speciality + ' \nСписок научных трудов: ' + str(self.work_list) + ' \n')
+        print(
+            '\n' + self.name + ' ' + self.surname + ' ' + self.patronymic +
+            ' ' + self.year_born + ' года рождения ' + ' \nДолжность: ' +
+            self.position + ' \nУченая степень: ' + self.academ_degree +
+            ' \nСпециальность: ' + self.speciality +
+            ' \nСписок научных трудов: ' + str(self.work_list) + ' \n'
+        )
 
     def change_info(self):
         self.name = input("Введите имя преподавателя: ")
@@ -54,19 +76,32 @@ class Univer_lecturer(Human):
         self.work_list = input("Введите список научных работ: ")
         return self.print_info()
 
-class Commis_member(Human):
-    def __init__(self, name = None, surname = None, patronymic = None, year_born = None, commis_name = None, commis_appoint_year = None, certificate_number = None, autobiogr = None):
+
+class CommisMember(Human):
+    """
+    Kласс «Член комиссии» с полями: название комиссии,
+    год назначения в комиссию, номер свидетельства,
+    автобиография (массив строк);
+    """
+    def __init__(
+            self, name=None, surname=None, patronymic=None,
+            year_born=None, commis_name=None, commis_appoint_year=None,
+            certificate_number=None, autobiogr=None
+    ):
         super().__init__(name, surname, patronymic, year_born)
         self.commis_name = commis_name
         self.commis_appoint_year = commis_appoint_year
         self.certificate_number = certificate_number
         self.autobiogr = autobiogr
 
-
     def print_info(self):
-        print('\n' + self.name + ' ' + self.surname + ' ' + self.patronymic + ' ' + self.year_born + ' года рождения ' + \
-              ' \nНазвание комиссии: ' + self.commis_name + ' \nГод назначения в комиссию: ' + self.commis_appoint_year +' \nНомер свдельства: ' + self.certificate_number + \
-              ' \nАвтобиография: ' + str(self.autobiogr) + ' \n')
+        print(
+            '\n' + self.name + ' ' + self.surname + ' ' + self.patronymic + ' '
+            + self.year_born + ' года рождения ' + ' \nНазвание комиссии: ' +
+            self.commis_name + ' \nГод назначения в комиссию: ' +
+            self.commis_appoint_year + ' \nНомер свдельства: ' + self.certificate_number +
+            ' \nАвтобиография: ' + str(self.autobiogr) + ' \n'
+        )
 
     def change_info(self):
         self.name = input("Введите имя преподавателя: ")
@@ -79,10 +114,23 @@ class Commis_member(Human):
         self.autobiogr = input("Введите автобиографию: ")
         return self.print_info()
 
-class Commis_and_lecturer(Commis_member, Univer_lecturer):
-    def __init__(self, name = None, surname = None, patronymic = None, year_born = None, position = None, academ_degree = None, speciality = None, work_list = None, commis_name = None, commis_appoint_year = None, certificate_number = None,
-                 autobiogr = None, works_in_comis = None):
-        super(Commis_member, self).__init__(name, surname, patronymic, year_born, position, academ_degree, speciality, work_list)
+
+class CommisMemberAndLecturer(CommisMember, UniverLecturer):
+    """
+    Kласс  «Преподаватели – члены комиссии» (производный от 2 и 3).
+    Дополнительное поле – список работ выполненных в комиссии.
+    Классы должны содержать методы доступа и изменения всех полей.
+    """
+    def __init__(
+            self, name=None, surname=None, patronymic=None, year_born=None,
+            position=None, academ_degree=None, speciality=None, work_list=None,
+            commis_name=None, commis_appoint_year=None, certificate_number=None,
+            autobiogr=None, works_in_comis=None
+    ):
+        super(CommisMember, self).__init__(
+            name, surname, patronymic, year_born,
+            position, academ_degree, speciality, work_list
+        )
         self.commis_name = commis_name
         self.commis_appoint_year = commis_appoint_year
         self.certificate_number = certificate_number
@@ -91,11 +139,14 @@ class Commis_and_lecturer(Commis_member, Univer_lecturer):
 
     def print_info(self):
         print(
-            '\n' + self.name + ' ' + self.surname + ' ' + self.patronymic + ' ' + self.year_born + ' года рождения ' + \
-            ' \nДолжность: ' + self.position + ' \nУченая степень: ' + self.academ_degree + ' \nСпециальность: ' + self.speciality + \
-            ' \nСписок научных трудов: ' + str(self.work_list) + \
-            ' \nНазвание комиссии: ' + self.commis_name + ' \nГод назначения в комиссию: ' + self.commis_appoint_year + ' \nНомер свдельства: ' + self.certificate_number + \
-            ' \nАвтобиография: ' + str(self.autobiogr) + ' \nСписок работ в комисии: ' + str(self.works_in_comis) + ' \n')
+            '\n' + self.name + ' ' + self.surname + ' ' + self.patronymic +
+            ' ' + self.year_born + ' года рождения ' + ' \nДолжность: ' + self.position +
+            ' \nУченая степень: ' + self.academ_degree + ' \nСпециальность: ' + self.speciality +
+            ' \nСписок научных трудов: ' + str(self.work_list) + ' \nНазвание комиссии: '
+            + self.commis_name + ' \nГод назначения в комиссию: ' + self.commis_appoint_year +
+            ' \nНомер свдельства: ' + self.certificate_number + ' \nАвтобиография: '
+            + str(self.autobiogr) + ' \nСписок работ в комисии: ' + str(self.works_in_comis) + ' \n'
+        )
 
     def change_info(self):
         self.name = input("Введите имя преподавателя: ")
@@ -114,15 +165,28 @@ class Commis_and_lecturer(Commis_member, Univer_lecturer):
         return self.print_info()
 
 
-
-lecturer = Univer_lecturer('Васильев', 'Василий', 'Васильевич', '1970', 'Лектор', 'Доцент', 'Математиеское моделирование', ['Математика', 'Cложная математика', 'Cложная математика 2'])
+lecturer = UniverLecturer(
+    'Васильев', 'Василий', 'Васильевич', '1970', 'Лектор', 'Доцент',
+    'Математиеское моделирование', ['Математика', 'Cложная математика', 'Cложная математика 2']
+)
 lecturer.print_info()
 lecturer.change_info()
 
-member = Commis_member('Васильев', 'Василий', 'Васильевич', '1970', '"Комиссия экзаменационная"', '2000', '70055036', ['Оценка энакзамена', 'Формирование другой комиссии'])
+member = CommisMember(
+    'Васильев', 'Василий', 'Васильевич', '1970',
+    '"Комиссия экзаменационная"', '2000', '70055036',
+    ['Оценка энакзамена', 'Формирование другой комиссии']
+)
 member.print_info()
 
-member_lecturer = Commis_and_lecturer('Васильев', 'Василий', 'Васильевич', '1970', '"Комиссия экзаменационная"', '2000', '70055036', ['Физика', 'Cложная физика', 'Cложная физика 2'], 'Лектор', 'Доцент', 'Математиеское моделирование', ['Оценка зачета', 'Формирование третьей комиссии'], 'Родился, учился, преподает')
+member_lecturer = CommisMemberAndLecturer(
+    'Васильев', 'Василий', 'Васильевич', '1970',
+    '"Комиссия экзаменационная"', '2000', '70055036',
+    ['Физика', 'Cложная физика', 'Cложная физика 2'],
+    'Лектор', 'Доцент', 'Математиеское моделирование',
+    ['Оценка зачета', 'Формирование третьей комиссии'],
+    'Родился, учился, преподает'
+)
 member_lecturer.print_info()
 member_lecturer.change_info()
 member_lecturer.print_info()
