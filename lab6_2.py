@@ -47,7 +47,8 @@ class Entrepreneur(Human):
     """
     def __init__(
             self, name=None, surname=None, patronymic=None, year_born=None,
-            license_number=None, registration_address=None, unn=None, data_on_tax_payments=None    # unn - это (УНН)
+            license_number=None, registration_address=None, unn=None, data_on_tax_payments=None
+            # unn - это (УНН)
     ):
         super().__init__(name, surname, patronymic, year_born)
         self.license_number = license_number
