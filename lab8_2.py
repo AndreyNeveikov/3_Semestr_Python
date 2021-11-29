@@ -1,162 +1,57 @@
 """
-1. Разработать класс Fakultet, порождающим класс Student.
-Класс Fakultet включает компоненты данные: наименование ВУЗа и факультета.
-Класс Student, включает компоненты данные:
-Ф.И.О. студента, год рождения, результаты сдачи последней сессии.
+8. Написать функцию-шаблон,
+вычисляющую максимальное значение в массиве.
+
+10. Написать функцию-шаблон,
+переставляющую элементы в массиве.
 """
 
+import random
 from abc import ABC, abstractmethod
 
 
-class Fakultet(ABC):
-    """
-    Класс Fakultet включает компоненты данные:
-    наименование ВУЗа и факультета
-    """
-    def __init__(self, university, fakultet, country):
-        """ Инициализация атрибутов """
-        self.university = university
-        self.fakultet = fakultet
-        self.country = country
+class FunctionTemplate(ABC):
+    """Шаблон класса для работы с массивами"""
 
     @abstractmethod
-    def print_object_info(self):
-        """
-        Выводит информацию об объекте класса
-        """
-    def return_fakultet(self):
-        """
-        Выводит информацию о факультете
-        """
+    def find_max(self):
+        """Вычисляет максимальное значение"""
+
+    @abstractmethod
+    def rearranging_elements(self, size):
+        """Переставляет элементы в массиве"""
 
 
-class Student(Fakultet):
-    """
-    Класс Student включает компоненты данные:
-    Ф.И.О. студента, год рождения, результаты сдачи последней сессии
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None,
-            fio=None, year_born=None, session_results=None
-    ):
+class ArrayFunctions(FunctionTemplate):
+    """Класс для работы с массивами"""
 
-        super().__init__(university, fakultet, country)
-        self.fio = fio
-        self.year_born = year_born
-        self.session_results = session_results
+    def __init__(self, array=None):
+        """Инициализация массива"""
+        self.array = array
 
-    def print_object_info(self):
-        print(
-            f"""\n\nСтудент университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}
-        """
-        )
+    def find_max(self):
+        max_element = self.array[0]
+        for element in self.array:
+            if element > max_element:
+                max_element = element
+        return max_element
 
-    def set_mark(self):
-        """Позволяет ввести отметку за сессию"""
-        print('Введите отметки за сессию')
-        mark = input()
-        print(f'\nУчащийся {self.fio} за сессию получил {mark}')
+    def rearranging_elements(self, size):
+        i = 0
+
+        while i < size:
+            rand_result_start = random.randint(0, size)
+            rand_result_swapped = random.randint(0, size)
+            tmp = self.array[rand_result_start]
+            self.array[rand_result_start] = self.array[rand_result_swapped]
+            self.array[rand_result_swapped] = tmp
+            i += 1
+        return self.array
 
 
-class UniverLecturer(Fakultet):
-    """
-    Kласс «Преподаватель университета» с полями:
-    должность, ученая степень, специальность,
-    список научных трудов
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None, fio=None,
-            year_born=None, academ_degree=None, speciality=None, work_list=None
-    ):
-
-        super().__init__(university, fakultet, country)
-        self.fio = fio
-        self.year_born = year_born
-        self.academ_degree = academ_degree
-        self.speciality = speciality
-        self.work_list = work_list
-
-    def print_object_info(self):
-        print(
-            f"""\nПреподаватель университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}
-        """
-        )
-
-    def return_fakultet(self):
-        print(
-            f"""\nПреподает на факультете: {self.fakultet}"""
-        )
-
-
-class Magistrant(UniverLecturer, Student):
-    """
-    Kласс «Магистрант» с общими полями класса Student,
-    класса UniverLecturer и дополнительным полем "курс"
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None, fio=None,
-            year_born=None, academ_degree=None, speciality=None,
-            work_list=None, session_results=None, course=None):
-
-        super().__init__(
-            university, fakultet, country, fio,
-            year_born, academ_degree, speciality, work_list
-        )
-        self.session_results = session_results
-        self.course = course
-
-    def print_object_info(self):
-        print(
-            f"""\nМагистрант университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}\
-            \nКурс: {self.course}
-        """
-        )
-
-    def print_magistrant(self):
-        """Выводит информацию без привязки к университету"""
-        print(
-            f"""\nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}\
-            \nКурс: {self.course}
-        """
-        )
-
-
-student = Student('BSUIR', 'FKP', 'Belarus', 'Neveikov Andrey Sergeevich', '200', '10 10 10 10 10')
-student.print_object_info()
-
-lecturer = UniverLecturer(
-    'BSUIR', 'FKP', 'Belarus', 'Павлов Павел Павлович', '1970', 'Доктор наук',
-    'Машинное обучение', ['Программирование', 'Аналитика данных', 'Нейронные сети']
+array_test = ArrayFunctions(
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
 )
-lecturer.print_object_info()
 
-magistrant = Magistrant(
-    'BSUIR', 'FKP', 'Belarus', 'Васильев Василий Васильевич', '1998', 'Бакалавр',
-    'Радиотехника', ['Ротоботехника', 'Программировние эл. приборов'],
-    '9 9 9 9 9', '1'
-)
-magistrant.print_object_info()
-magistrant.print_magistrant()
-magistrant.set_mark()
+print(array_test.find_max())
+print(array_test.rearranging_elements(8))
