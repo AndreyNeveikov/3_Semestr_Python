@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 
 
 class ListTemplate(ABC):
+    """Шаблон класса функций для работы с односвязным списком"""
 
     @abstractmethod
     def append(self, *args):
