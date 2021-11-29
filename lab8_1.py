@@ -1,162 +1,149 @@
 """
-1. Разработать класс Fakultet, порождающим класс Student.
-Класс Fakultet включает компоненты данные: наименование ВУЗа и факультета.
-Класс Student, включает компоненты данные:
-Ф.И.О. студента, год рождения, результаты сдачи последней сессии.
+Напишите шаблон класса односвязного списка,
+который принимает элементы любого типа.
+В классе реализуйте функции для работы с односвязным списком.
 """
 
 from abc import ABC, abstractmethod
 
 
-class Fakultet(ABC):
-    """
-    Класс Fakultet включает компоненты данные:
-    наименование ВУЗа и факультета
-    """
-    def __init__(self, university, fakultet, country):
-        """ Инициализация атрибутов """
-        self.university = university
-        self.fakultet = fakultet
-        self.country = country
+class ListTemplate(ABC):
 
     @abstractmethod
-    def print_object_info(self):
+    def append(self, *args):
         """
-        Выводит информацию об объекте класса
-        """
-    def return_fakultet(self):
-        """
-        Выводит информацию о факультете
+        Добавляет элемент в конец массива
         """
 
-
-class Student(Fakultet):
-    """
-    Класс Student включает компоненты данные:
-    Ф.И.О. студента, год рождения, результаты сдачи последней сессии
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None,
-            fio=None, year_born=None, session_results=None
-    ):
-
-        super().__init__(university, fakultet, country)
-        self.fio = fio
-        self.year_born = year_born
-        self.session_results = session_results
-
-    def print_object_info(self):
-        print(
-            f"""\n\nСтудент университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}
+    @abstractmethod
+    def insert(self, *args):
         """
-        )
-
-    def set_mark(self):
-        """Позволяет ввести отметку за сессию"""
-        print('Введите отметки за сессию')
-        mark = input()
-        print(f'\nУчащийся {self.fio} за сессию получил {mark}')
-
-
-class UniverLecturer(Fakultet):
-    """
-    Kласс «Преподаватель университета» с полями:
-    должность, ученая степень, специальность,
-    список научных трудов
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None, fio=None,
-            year_born=None, academ_degree=None, speciality=None, work_list=None
-    ):
-
-        super().__init__(university, fakultet, country)
-        self.fio = fio
-        self.year_born = year_born
-        self.academ_degree = academ_degree
-        self.speciality = speciality
-        self.work_list = work_list
-
-    def print_object_info(self):
-        print(
-            f"""\nПреподаватель университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}
+        Добавляет элемент в середину массива
         """
-        )
 
-    def return_fakultet(self):
-        print(
-            f"""\nПреподает на факультете: {self.fakultet}"""
-        )
-
-
-class Magistrant(UniverLecturer, Student):
-    """
-    Kласс «Магистрант» с общими полями класса Student,
-    класса UniverLecturer и дополнительным полем "курс"
-    """
-    def __init__(
-            self, university=None, fakultet=None, country=None, fio=None,
-            year_born=None, academ_degree=None, speciality=None,
-            work_list=None, session_results=None, course=None):
-
-        super().__init__(
-            university, fakultet, country, fio,
-            year_born, academ_degree, speciality, work_list
-        )
-        self.session_results = session_results
-        self.course = course
-
-    def print_object_info(self):
-        print(
-            f"""\nМагистрант университета: {self.university} факультета: {self.fakultet} \
-            \nСтраны {self.country} \
-            \nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}\
-            \nКурс: {self.course}
+    @abstractmethod
+    def get_element(self, *args):
         """
-        )
-
-    def print_magistrant(self):
-        """Выводит информацию без привязки к университету"""
-        print(
-            f"""\nФИО: {self.fio} \
-            \nГод рождения: {self.year_born}\
-            \nРезультаты сессии: {self.session_results}\
-            \nУченая степень: {self.academ_degree}\
-            \nCпециальность: {self.speciality}\
-            \nCписок научных трудов: {self.work_list}\
-            \nКурс: {self.course}
+        Выводит элемент с заданным индексом
         """
-        )
+
+    @abstractmethod
+    def delete_element(self, *args):
+        """
+        Удаляет элемент с заданным индексом из массива
+        """
+
+    @abstractmethod
+    def out(self, *args):
+        """
+        Вывод массива
+        """
 
 
-student = Student('BSUIR', 'FKP', 'Belarus', 'Neveikov Andrey Sergeevich', '200', '10 10 10 10 10')
-student.print_object_info()
+class LinkedList(ListTemplate):
+    """Односвязный список"""
+    head = None    # Начало списка
 
-lecturer = UniverLecturer(
-    'BSUIR', 'FKP', 'Belarus', 'Павлов Павел Павлович', '1970', 'Доктор наук',
-    'Машинное обучение', ['Программирование', 'Аналитика данных', 'Нейронные сети']
-)
-lecturer.print_object_info()
+    class Node:
+        """"Запись в списке (принимает любой тип)"""
 
-magistrant = Magistrant(
-    'BSUIR', 'FKP', 'Belarus', 'Васильев Василий Васильевич', '1998', 'Бакалавр',
-    'Радиотехника', ['Ротоботехника', 'Программировние эл. приборов'],
-    '9 9 9 9 9', '1'
-)
-magistrant.print_object_info()
-magistrant.print_magistrant()
-magistrant.set_mark()
+        def __init__(self, element=None, next_node=None):
+            """Инициализация записи"""
+            self.element = element
+            self.next_node = next_node
+
+    def append(self, element):
+        if not self.head:   # Если список еще пустой
+            self.head = self.Node(element)   # Присваиваем значение в head
+            return element
+
+        # Если нет, добираемся до последнего элемента
+        node = self.head
+
+        while node.next_node:   # Пока есть следующий элемент
+            node = node.next_node   # Присваиваем значение следующего
+
+        node.next_node = self.Node(element)   # Когда закончились, присваиваем значение
+
+    def insert(self, element, index):
+        """
+           ()             ()       Убираем старую связь между элементами
+           V     -->     /  \
+        ()---()        ()   ()     и добавляем две новых
+        """
+        i = 0
+        node = self.head
+        prev_node = self.head
+
+        while i < index:   # Доходим до индекса элемента, который вставляем
+            prev_node = node
+            node = node.next_node
+            i += 1
+
+        prev_node.next_node = self.Node(element, next_node=node)   # Новый узел (node - позиция)
+
+        return element
+
+    def get_element(self, index):
+        i = 0
+        node = self.head
+
+        while i < index:   # Проходим до нужного элемента
+            node = node.next_node
+            i += 1
+
+        return node.element
+
+    def delete_element(self, index):
+        """
+           ()             ()       Убираем две старых связи между элементами
+          /  \
+        ()   ()        ()---()     и соединяем соседние элементы
+        """
+        if index == 0:   # Переназначаем голову в следующий узел
+            self.head = self.head.next_node
+
+        node = self.head
+        i = 0
+        prev_node = node
+
+        while i < index:   # Проходим до нужного элемента
+            prev_node = node
+            node = node.next_node
+            i += 1
+
+        prev_node.next_node = node.next_node   # Убираем связи с искомым элементом
+        element = node.element
+        del node   # Удаляем искомый элемент
+
+        return element
+
+    def out(self):
+        node = self.head
+
+        while node.next_node:   # Печать пока есть следующий
+            print(node.element)
+            node = node.next_node
+        print(node.element)   # Печать последнего
+
+
+linked_list = LinkedList()
+
+linked_list.append(123)    # int
+linked_list.append(456.00)    # float
+linked_list.append('789')    # string
+linked_list.append(['list element 1', 'list element 2'])    # list
+linked_list.append((9, 8, 7))    # tuple
+linked_list.append({654})    # set
+linked_list.append({"one": 1, "two": 2, "three": 3})    # dict
+linked_list.append(True)    # bool
+linked_list.append(123)
+
+linked_list.insert(999, 4)
+
+print("\nПолучившийся список")
+linked_list.out()
+
+print(f'\nЭлемент с заданным индексом: {linked_list.get_element(4)}')
+print(f'\nУдален элемент: {linked_list.delete_element(5)}')
+linked_list.out()
