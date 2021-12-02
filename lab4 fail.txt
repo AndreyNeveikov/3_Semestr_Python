@@ -1,0 +1,87 @@
+"""
+Задачка про ростущий помидор
+"""
+
+
+class Tomato:
+    """
+    Помидор с характеристиками: индекс, стадия зрелости
+    Может переводить томат на следующую стадию зрелости
+    Проверять созрел ли помидор
+    """
+    counter = 0
+    states = {0: 'Отсутствует', 1: 'Цветение', 2: 'Зеленый', 3: 'Красный'}    # Статич св-во
+
+    def __init__(self, state):
+        self.state = state
+        self.index = Tomato.counter
+
+        Tomato.counter += 1
+        self.counter = Tomato.counter
+
+    def grow(self):
+        """Переводит томат на следующую стадию зрелости"""
+        if self.state == 'Красный':
+            print('Помидор уже созрел')
+            return
+
+        for iteration_index in range(0, len(Tomato.states) - 1):
+            if self.state == Tomato.states[iteration_index]:
+                state = Tomato.states[iteration_index + 1]
+                print(f'\nПомидор вырос до стадии {state}')
+                self.state = state
+                return
+
+    def is_ripe(self):
+        """Проверяет созрел ли помидор"""
+        if self.state == Tomato.states[len(Tomato.states) - 1]:
+            print('Помидор уже созрел')
+            return self.state
+
+
+class TomatoBush:
+    """
+    Создает список объектов класса Tomato
+    Может перевести все томаты на следующую стадию созревания
+    Определяет зрелость всех томатов
+    Чистит список томатов после сбора урожая
+    """
+    def __init__(self, amount_of_tomato):
+        self.amount_of_tomato = amount_of_tomato
+        self.tomato_list = [Tomato(index) for index in range(0, amount_of_tomato)]
+
+    Tomatoes_on_bush = Tomato.counter
+
+    def tomato_amount(self):
+        """Вычисляет количество томатов"""
+        if len(self.tomato_list) > Tomato.counter:
+            print("На кусте не может быть больше томатов, чем всех существующих")
+            return
+
+        print(len(self.tomato_list))
+
+
+
+tomato0 = Tomato('Красный')
+tomato0.is_ripe()
+tomato1 = Tomato('Зеленый')
+tomato1.grow()
+
+tomato2 = Tomato('Зеленый')
+tomato3 = Tomato('Зеленый')
+tomato4 = Tomato('Зеленый')
+
+tomato1.grow()
+tomato4.grow()
+
+print(tomato2.index)
+
+tomato_bush = TomatoBush(10)
+tomato_bush.tomato_amount()
+tomato_bush.grow_all()
+
+tomato1.grow()
+tomato4.grow()
+
+print(tomato2.index)
+print(Tomato.counter)
